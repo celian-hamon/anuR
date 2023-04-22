@@ -1,0 +1,58 @@
+@model anuR.Views.App.Index
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <div class="col">
+        <h2 class="text-start">
+            <a asp-action="Site" class="nav-link" style="font-size: 2rem;">Sites</a>
+        </h2>
+        <ol class="list-group list-group-numbered overflow-auto text-start">
+            @foreach (Site site in Model.Sites)
+            {
+                <a class="list-group-item d-flex justify-content-between align-items-start active:hover list-group-item-action">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">@site.City</div>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">@site.Users.Count</span>
+                </a>
+            }
+        </ol>
+    </div>
+    <div class="col">
+        <h2 class="text-start">
+            <a asp-action="User" class="nav-link" style="font-size: 2rem;">Employees</a>
+        </h2>
+        <ol class="list-group list-group-numbered overflow-auto text-start">
+            @foreach (User user in Model.Users)
+            {
+                <a class="list-group-item d-flex justify-content-between align-items-start active:hover list-group-item-action">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">@user.FirstName @user.LastName</div>
+                        @user.Email
+                    </div>
+                    <span class="badge bg-primary rounded-pill">@user.PhoneNumber</span>
+                </a>
+            }
+        </ol>
+    </div>
+    <div class="col">
+        <h2 class="text-start">
+            <a asp-action="Service" class="nav-link" style="font-size: 2rem;">Services</a>
+        </h2>
+        <ol class="list-group list-group-numbered overflow-auto text-start">
+            @foreach (Service service in Model.Services)
+            {
+                <a class="list-group-item d-flex justify-content-between align-items-start active:hover list-group-item-action">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">@service.Name</div>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">@service.Users.Count</span>
+                </a>
+            }
+        </ol>
+    </div>
+</div>

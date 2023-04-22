@@ -37,6 +37,21 @@ namespace anuR.Migrations
                     b.ToTable("ServiceUser");
                 });
 
+            modelBuilder.Entity("SiteUser", b =>
+                {
+                    b.Property<int>("SitesId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("SitesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("SiteUser");
+                });
+
             modelBuilder.Entity("anuR.Models.Service", b =>
                 {
                     b.Property<int>("Id")
@@ -52,15 +67,10 @@ namespace anuR.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("SiteId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SiteId");
 
                     b.ToTable("Services");
                 });
@@ -98,26 +108,21 @@ namespace anuR.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("RefreshToken")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -143,18 +148,19 @@ namespace anuR.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("anuR.Models.Service", b =>
+            modelBuilder.Entity("SiteUser", b =>
                 {
-                    b.HasOne("anuR.Models.Site", "Site")
-                        .WithMany("Services")
-                        .HasForeignKey("SiteId");
+                    b.HasOne("anuR.Models.Site", null)
+                        .WithMany()
+                        .HasForeignKey("SitesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Site");
-                });
-
-            modelBuilder.Entity("anuR.Models.Site", b =>
-                {
-                    b.Navigation("Services");
+                    b.HasOne("anuR.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

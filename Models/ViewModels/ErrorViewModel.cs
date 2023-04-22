@@ -1,4 +1,4 @@
-namespace anuR.Models;
+namespace anuR.Models.ViewModels;
 
 public class ErrorViewModel
 {
