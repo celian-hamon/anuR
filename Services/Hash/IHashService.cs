@@ -1,4 +1,4 @@
-namespace stocknet_api_v2.Services;
+namespace anuR.Services;
 
 public interface IHashService
 {

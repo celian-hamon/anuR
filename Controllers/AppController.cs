@@ -1,7 +1,5 @@
-using System.ComponentModel.DataAnnotations;
 using anuR.Context;
 using anuR.Models;
-using anuR.Views.App;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +15,7 @@ public class AppController : Controller
         _context = context;
     }
 
-    // GET
+    [HttpGet]
     public IActionResult Index()
     {
         var index = new anuR.Views.App.Index
@@ -30,6 +28,7 @@ public class AppController : Controller
         return View(index);
     }
 
+    [HttpGet]
     public IActionResult Site(int Id)
     {
         Site site = _context.Sites.Include(s => s.Users).FirstOrDefault(s => s.Id == Id);
@@ -37,12 +36,14 @@ public class AppController : Controller
         return View(site);
     }
     
+    [HttpGet]
     public IActionResult Sites()
     {
         List<Site> sites = _context.Sites.Include(s => s.Users).ToList();
         return View(sites);
     }
 
+    [HttpGet]
     public IActionResult Service(int Id)
     {
         Service service =  _context.Services.Include(s => s.Users).FirstOrDefault(s => s.Id == Id);
@@ -51,12 +52,14 @@ public class AppController : Controller
         return View(service);
     }
     
+    [HttpGet]
     public IActionResult Services()
     {
         List<Service> services = _context.Services.Include(s => s.Users).ToList();
         return View(services);
     }
-
+    
+    [HttpGet]
     public IActionResult User(Guid id)
     {
         var user = _context.Users.Include(s => s.Services).Include(s => s.Sites).FirstOrDefault(u => u.Id == id);
@@ -66,7 +69,8 @@ public class AppController : Controller
         ViewBag.Services = _context.Services.ToList();
         return View(user);
     }
-
+    
+    [HttpGet]
     public IActionResult Users()
     {
         List<User> users = _context.Users.Include(s => s.Services).Include(s => s.Sites).ToList(); 

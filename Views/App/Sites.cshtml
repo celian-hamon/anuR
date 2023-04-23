@@ -5,6 +5,7 @@
     Layout = "_ListLayout";
 }
 <div>
+    <h1>Sites</h1>
     <div class="input-group" style="margin-bottom: 20px">
         <div class="form-outline input-group">
             <div class="input-group-prepend">
@@ -16,11 +17,11 @@
         </div>
     </div>
     <div style="display: flex;flex-direction: row;justify-content: space-between">
-        <ol id="userList" class="list-group  overflow-auto text-start" style="height: 90%;width: 100%">
+        <ol id="userList" class="list-group  overflow-auto text-start" style="height:calc(100vh - 325px);width: 100%;overflow-y: auto">
             @foreach (Site site in Model)
             {
                 <li>
-                    <a href="@Url.Action("Site",new { site.Id })" class="list-group-item d-flex justify-content-between align-items-start active:hover list-group-item-action">
+                    <a href="@Url.Action("Site", new { site.Id })" class="list-group-item d-flex justify-content-between align-items-start active:hover list-group-item-action">
                         <div class="ms-2 me-auto">
                             <div class="fw-bold">@site.City</div>
                         </div>

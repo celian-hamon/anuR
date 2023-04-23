@@ -1,15 +1,13 @@
 using System.Security.Cryptography;
 using System.Text;
-using stocknet_api_v2.Services;
+using anuR.Services;
 
 public class HashService : IHashService
 {
     public string GetHash(string input)
     {
-        HashAlgorithm hashAlgorithm = SHA512.Create();
-
         // Convert the input string to a byte array and compute the hash.
-        var data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
+        var data = SHA512.HashData(Encoding.UTF8.GetBytes(input));
 
         // Create a new Stringbuilder to collect the bytes
         // and create a string.
@@ -17,7 +15,8 @@ public class HashService : IHashService
 
         // Loop through each byte of the hashed data
         // and format each one as a hexadecimal string.
-        for (var i = 0; i < data.Length; i++) sBuilder.Append(data[i].ToString("x2"));
+        foreach (var t in data)
+            sBuilder.Append(t.ToString("x2"));
 
         // Return the hexadecimal string.
         return sBuilder.ToString();

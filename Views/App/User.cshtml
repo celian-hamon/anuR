@@ -1,8 +1,11 @@
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model anuR.Models.User
 
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
+    ViewBag.IsAdmin = User.IsInRole("Admin");
 }
 
 <div style="display: flex;flex-direction: row;justify-content: space-between;margin-bottom:50px;">
@@ -17,6 +20,10 @@
         <h3>
             @Model.PhoneNumber
         </h3>
+        @if (Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.Id)
+        {
+            <a class="btn btn-success" asp-action="Logout" asp-controller="Auth" style="margin-left: 20px;height: fit-content"><h4>logout</h4></a>
+        }
     </div>
 </div>
 
@@ -88,7 +95,10 @@
     <div class="col">
         <div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;">
             <h2 style="width: fit-content;">Sites</h2>
-            <button type="submit" class="border-none badge bg-success rounded-pill" id="siteModalBtn" style="height: fit-content">add +</button>
+            @if (ViewBag.IsAdmin)
+            {
+                <button type="submit" class="border-none badge bg-success rounded-pill" id="siteModalBtn" style="height: fit-content">add +</button>
+            }
         </div>
 
         <ol class="list-group list-group-numbered overflow-auto text-start">
@@ -98,9 +108,12 @@
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">@site.City</div>
                     </div>
-                    <form method="post" action="@Url.Action("RemoveSite", new { userId = @Model.Id, siteId = site.Id })">
-                        <button type="submit" class="border-none badge bg-danger rounded-pill">remove</button>
-                    </form>
+                    @if (ViewBag.IsAdmin)
+                    {
+                        <form method="post" action="@Url.Action("RemoveSite", new { userId = @Model.Id, siteId = site.Id })">
+                            <button type="submit" class="border-none badge bg-danger rounded-pill">remove</button>
+                        </form>
+                    }
                 </span>
             }
         </ol>
@@ -108,7 +121,10 @@
     <div class="col">
         <div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center">
             <h2 style="width: fit-content;">Services</h2>
-            <button type="submit" class="border-none badge bg-success rounded-pill" id="serviceModalBtn" style="height: fit-content">add +</button>
+            @if (ViewBag.IsAdmin)
+            {
+                <button type="submit" class="border-none badge bg-success rounded-pill" id="serviceModalBtn" style="height: fit-content">add +</button>
+            }
         </div>
         <ol class="list-group list-group-numbered overflow-auto text-start">
             @foreach (Service service in Model.Services)
@@ -117,9 +133,12 @@
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">@service.Name</div>
                     </div>
-                    <form method="post" action="@Url.Action("RemoveService", new { userId = @Model.Id, serviceId = service.Id })">
-                        <button type="submit" class="border-none badge bg-danger rounded-pill">remove</button>
-                    </form>
+                    @if (ViewBag.IsAdmin)
+                    {
+                        <form method="post" action="@Url.Action("RemoveService", new { userId = @Model.Id, serviceId = service.Id })">
+                            <button type="submit" class="border-none badge bg-danger rounded-pill">remove</button>
+                        </form>
+                    }
                 </a>
             }
         </ol>

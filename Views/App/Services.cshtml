@@ -5,6 +5,7 @@
     Layout = "_ListLayout";
 }
 <div>
+    <h1>Services</h1>
     <div class="input-group" style="margin-bottom: 20px">
         <div class="form-outline input-group">
             <div class="input-group-prepend">
@@ -13,10 +14,15 @@
                 </label>
             </div>
             <input id="search-focus" onkeyup="myFunction()" type="search" id="form1" class="form-control" placeholder="Search"/>
+            <div class="input-group-prepend">
+                <btn class=" btn input-group-text btn-success" >
+                    Add
+                </btn>
+            </div>
         </div>
     </div>
     <div style="display: flex;flex-direction: row;justify-content: space-between">
-        <ol id="userList" class="list-group  overflow-auto text-start" style="height: 90%;width: 100%">
+        <ol id="userList" class="list-group  overflow-auto text-start" style="height:calc(100vh - 325px);width: 100%;overflow-y: auto">
             @foreach (Service service in Model)
             {
                 <li>

@@ -9,4 +9,9 @@ public class ErrorController : Controller
     {
         return View();
     }
+    
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }
 }
