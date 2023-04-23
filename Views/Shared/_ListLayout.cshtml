@@ -1,0 +1,48 @@
+ @using Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - anuR</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+</head>
+<body class="d-flex h-100 text-center text-white bg-dark">
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column " bis_skin_checked="1">
+    <header class="mb-5">
+        <div bis_skin_checked="1">
+            <h2 class="float-md-start mb-0"><a class="nav-link" asp-action="Index" style="font-size: 3rem;">anuR</a></h2>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                @if(User.Identity.IsAuthenticated){
+                    <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
+                }
+                else if(!User.Identity.IsAuthenticated){
+                    <a class="nav-link" asp-area="" asp-controller="Auth" asp-action="Register">Register</a>
+                    <a class="nav-link" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+                }
+            </nav>
+        </div>
+    </header>
+    
+    <main class="px-3" style="">  @*// TODO: fix this *@
+        <div class="container h-100">
+            <main role="main" class="pt-10 pb-5">
+                @RenderBody()
+            </main>
+        </div>
+    </main>
+
+    <footer class="mt-auto text-white-50">
+        &copy; 2023 - anuR - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </footer>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

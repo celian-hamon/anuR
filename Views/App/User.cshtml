@@ -1,8 +1,164 @@
-@model dynamic
+@model anuR.Models.User
 
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
 
-<h2></h2>
+<div style="display: flex;flex-direction: row;justify-content: space-between;margin-bottom:50px;">
+    <h1>
+        @Model.FirstName @Model.LastName
+        <span class="badge bg-primary rounded-pill" style="font-size:1rem;">@(@Model.IsAdmin ? "Admin" : "user")</span>
+    </h1>
+    <div style="display: flex;flex-direction:row">
+        <h3 style="padding: 0 12px">
+            @Model.Email
+        </h3>
+        <h3>
+            @Model.PhoneNumber
+        </h3>
+    </div>
+</div>
+
+
+<div id="siteModal" class="modal">
+    <span class="close">&times;</span>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="exampleModalLabel">Add Site</h5>
+            </div>
+            <form method="post" action="@Url.Action("AddSite", new { userId = @Model.Id })">
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                        </div>
+
+                        <select class="custom-select" id="inputGroupSelect01" name="siteId">
+                            <option selected>Choose a site</option>
+                            @foreach (Site site in ViewBag.Sites)
+                            {
+                                <option value="@site.Id">@site.City</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('siteModal').style.display='none';" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Add Site</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="serviceModal" class="modal">
+    <span class="close">&times;</span>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="exampleModalLabel">Add Service</h5>
+            </div>
+            <form method="post" action="@Url.Action("AddService", new { userId = @Model.Id })">
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                        </div>
+
+                        <select class="custom-select" id="inputGroupSelect01" name="siteId">
+                            <option selected>Choose a site</option>
+                            @foreach (Service service in ViewBag.Services)
+                            {
+                                <option value="@service.Id">@service.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('serviceModal').style.display='none';" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Add Service</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;">
+            <h2 style="width: fit-content;">Sites</h2>
+            <button type="submit" class="border-none badge bg-success rounded-pill" id="siteModalBtn" style="height: fit-content">add +</button>
+        </div>
+
+        <ol class="list-group list-group-numbered overflow-auto text-start">
+            @foreach (Site site in Model.Sites)
+            {
+                <span class="list-group-item d-flex justify-content-between align-items-start active:hover list-group-item-action">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">@site.City</div>
+                    </div>
+                    <form method="post" action="@Url.Action("RemoveSite", new { userId = @Model.Id, siteId = site.Id })">
+                        <button type="submit" class="border-none badge bg-danger rounded-pill">remove</button>
+                    </form>
+                </span>
+            }
+        </ol>
+    </div>
+    <div class="col">
+        <div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center">
+            <h2 style="width: fit-content;">Services</h2>
+            <button type="submit" class="border-none badge bg-success rounded-pill" id="serviceModalBtn" style="height: fit-content">add +</button>
+        </div>
+        <ol class="list-group list-group-numbered overflow-auto text-start">
+            @foreach (Service service in Model.Services)
+            {
+                <a class="list-group-item d-flex justify-content-between align-items-start active:hover list-group-item-action">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">@service.Name</div>
+                    </div>
+                    <form method="post" action="@Url.Action("RemoveService", new { userId = @Model.Id, serviceId = service.Id })">
+                        <button type="submit" class="border-none badge bg-danger rounded-pill">remove</button>
+                    </form>
+                </a>
+            }
+        </ol>
+    </div>
+</div>
+
+<script>
+// Get the modal
+var siteModal = document.getElementById("siteModal");
+var serviceModal = document.getElementById("serviceModal");
+
+// Get the button that opens the modal
+var siteBtn = document.getElementById("siteModalBtn");
+var serviceBtn = document.getElementById("serviceModalBtn");
+
+// Get the <span> element that closes the modal
+var siteSpan = document.getElementsByClassName("close")[0];
+var serviceSpan = document.getElementsByClassName("close")[1];
+
+// When the user clicks on the button, open the modal
+siteBtn.onclick = function() {
+  siteModal.style.display = "block";
+}
+serviceBtn.onclick = function() {
+  serviceModal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+siteSpan.onclick = function() {
+  siteModal.style.display = "none";
+}
+serviceSpan.onclick = function() {
+  serviceModal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == siteModal || event.target == serviceModal) {
+    siteModal.style.display = "none";
+  }
+}
+</script>

@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations;
 using anuR.Context;
 using anuR.Models;
+using anuR.Views.App;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,22 +27,117 @@ public class AppController : Controller
             Services = _context.Services.Include(s => s.Users).ToList(),
         };
 
-
         return View(index);
     }
 
-    public IActionResult Site()
+    public IActionResult Site(int Id)
     {
-        return View();
+        Site site = _context.Sites.Include(s => s.Users).FirstOrDefault(s => s.Id == Id);
+        if (site == null) return RedirectToAction("NotFound", "Error"); // TODO: 404 page
+        return View(site);
+    }
+    
+    public IActionResult Sites()
+    {
+        List<Site> sites = _context.Sites.Include(s => s.Users).ToList();
+        return View(sites);
     }
 
-    public IActionResult Service()
+    public IActionResult Service(int Id)
     {
-        return View();
+        Service service =  _context.Services.Include(s => s.Users).FirstOrDefault(s => s.Id == Id);
+        ViewBag.Services = _context.Services.ToList();
+        if (service == null) return RedirectToAction("NotFound", "Error"); // TODO: 404 page
+        return View(service);
+    }
+    
+    public IActionResult Services()
+    {
+        List<Service> services = _context.Services.Include(s => s.Users).ToList();
+        return View(services);
     }
 
-    public IActionResult User()
+    public IActionResult User(Guid id)
     {
-        return View();
+        var user = _context.Users.Include(s => s.Services).Include(s => s.Sites).FirstOrDefault(u => u.Id == id);
+        if (user == null) return RedirectToAction("NotFound", "Error"); // TODO: 404 page
+        
+        ViewBag.Sites = _context.Sites.ToList();
+        ViewBag.Services = _context.Services.ToList();
+        return View(user);
+    }
+
+    public IActionResult Users()
+    {
+        List<User> users = _context.Users.Include(s => s.Services).Include(s => s.Sites).ToList(); 
+        return View(users);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public IActionResult RemoveSite(Guid userId, int siteId)
+    {
+        var user = _context.Users
+            .Include(s => s.Sites)
+            .FirstOrDefault(u => u.Id == userId);
+
+        var site = _context.Sites.FirstOrDefault(s => s.Id == siteId);
+
+        if (user == null || site == null) return RedirectToAction("NotFound", "Error"); // TODO: 404 page
+        if (!user.Sites.Contains(site)) return RedirectToAction("NotFound", "Error"); // TODO: 404 page
+        user.Sites.Remove(site);
+        _context.SaveChanges();
+        return RedirectToAction("User",new {id = userId});
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public IActionResult AddSite(Guid userId, [FromForm] int siteId)
+    {
+        var user = _context.Users
+            .Include(s => s.Sites)
+            .FirstOrDefault(u => u.Id == userId);
+
+        var site = _context.Sites.FirstOrDefault(s => s.Id == siteId);
+
+        if (user == null || site == null) return RedirectToAction("NotFound", "Error"); // TODO: 404 page
+        user.Sites.Add(site);
+        _context.SaveChanges();
+
+        return RedirectToAction("User",new {id = userId});
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public IActionResult RemoveService(Guid userId, int serviceId)
+    {
+        var user = _context.Users.Include(s => s.Services)
+            .FirstOrDefault(u => u.Id == userId);
+
+        var service = _context.Services.FirstOrDefault(s => s.Id == serviceId);
+
+        if (user == null || service == null) return RedirectToAction("NotFound", "Error"); // TODO: 404 page
+        if (!user.Services.Contains(service)) return RedirectToAction("NotFound", "Error"); // TODO: 404 page
+        
+        user.Services.Remove(service);
+        _context.SaveChanges();
+        
+        return RedirectToAction("User",new {id = userId});
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public IActionResult AddService(Guid userId, [FromForm] int siteId)
+    {
+        var user = _context.Users.Include(s => s.Services)
+            .FirstOrDefault(u => u.Id == userId);
+
+        var service = _context.Services.FirstOrDefault(s => s.Id == siteId);
+
+        if (user == null || service == null) return RedirectToAction("NotFound", "Error"); // TODO: 404 page
+        user.Services.Add(service);
+        _context.SaveChanges();
+
+        return RedirectToAction("User", new {id = userId});
     }
 }
