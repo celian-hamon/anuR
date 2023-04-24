@@ -4,6 +4,29 @@
     ViewBag.Title = "title";
     Layout = "_ListLayout";
 }
+
+<div id="serviceModal" class="modal">
+    <span class="close">&times;</span>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="exampleModalLabel">Create Service</h5>
+            </div>
+            <form method="post" action="@Url.Action("Create", "Service")">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" style="color: black">Name</label>
+                        <input type="text" class="form-control" name="name" id="name" aria-describedby="service name" placeholder="Name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('serviceModal').style.display='none';" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Add Service</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div>
     <h1>Services</h1>
     <div class="input-group" style="margin-bottom: 20px">
@@ -15,7 +38,7 @@
             </div>
             <input id="search-focus" onkeyup="myFunction()" type="search" id="form1" class="form-control" placeholder="Search"/>
             <div class="input-group-prepend">
-                <btn class=" btn input-group-text btn-success" >
+                <btn id="serviceModalBtn" class=" btn input-group-text btn-success">
                     Add
                 </btn>
             </div>
@@ -37,6 +60,24 @@
         </ol>
     </div>
 </div>
+
+<script>
+var serviceModal = document.getElementById("serviceModal");
+var serviceBtn = document.getElementById("serviceModalBtn");
+var serviceSpan = document.getElementsByClassName("close")[0];
+serviceBtn.onclick = function() {
+  serviceModal.style.display = "block";
+}
+serviceSpan.onclick = function() {
+  serviceModal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+ window.onclick = function(event) {
+   if (event.target == serviceModal) {
+     siteModal.style.display = "none";
+   }
+ }
+</script>
 
 <script>
 function myFunction() {

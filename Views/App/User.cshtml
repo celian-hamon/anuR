@@ -9,10 +9,18 @@
 }
 
 <div style="display: flex;flex-direction: row;justify-content: space-between;margin-bottom:50px;">
-    <h1>
-        @Model.FirstName @Model.LastName
-        <span class="badge bg-primary rounded-pill" style="font-size:1rem;">@(@Model.IsAdmin ? "Admin" : "user")</span>
-    </h1>
+    <div class="d-flex flex-row align-content-center">
+        <h1>
+            @Model.FirstName @Model.LastName
+            <span class="badge bg-primary rounded-pill" style="font-size:1rem;">@(@Model.IsAdmin ? "Admin" : "user")</span>
+        </h1>
+        @if (User.IsInRole("Admin"))
+        {
+            <form action="@Url.Action("Delete","User",new { Model.Id })" method="post">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        }
+    </div>
     <div style="display: flex;flex-direction:row">
         <h3 style="padding: 0 12px">
             @Model.Email
@@ -20,9 +28,11 @@
         <h3>
             @Model.PhoneNumber
         </h3>
-        @if (Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.Id)
+        @if (User.FindFirstValue(ClaimTypes.NameIdentifier) != null && Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.Id)
         {
-            <a class="btn btn-success" asp-action="Logout" asp-controller="Auth" style="margin-left: 20px;height: fit-content"><h4>logout</h4></a>
+            <a class="btn btn-success" asp-action="Logout" asp-controller="Auth" style="margin-left: 20px;height: fit-content">
+                <h4>logout</h4>
+            </a>
         }
     </div>
 </div>

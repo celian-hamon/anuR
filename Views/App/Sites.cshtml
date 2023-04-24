@@ -4,6 +4,31 @@
     ViewBag.Title = "title";
     Layout = "_ListLayout";
 }
+
+<div id="siteModal" class="modal">
+    <span class="close">&times;</span>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="exampleModalLabel">Create Site</h5>
+            </div>
+            <form method="post" action="@Url.Action("Create","Site")">
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                        <label for="exampleInputEmail1" style="color: black">City</label>
+                            <input type="text" class="form-control" name="city" id="city" aria-describedby="site city" placeholder="City">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('siteModal').style.display='none';" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Add Site</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div>
     <h1>Sites</h1>
     <div class="input-group" style="margin-bottom: 20px">
@@ -14,6 +39,11 @@
                 </label>
             </div>
             <input id="search-focus" onkeyup="myFunction()" type="search" id="form1" class="form-control" placeholder="Search"/>
+            <div class="input-group-prepend">
+                <btn id="siteModalBtn" class=" btn input-group-text btn-success">
+                    Add
+                </btn>
+            </div>
         </div>
     </div>
     <div style="display: flex;flex-direction: row;justify-content: space-between">
@@ -32,6 +62,23 @@
         </ol>
     </div>
 </div>
+
+<script>
+var siteModal = document.getElementById("siteModal");
+var siteBtn = document.getElementById("siteModalBtn");
+var siteSpan = document.getElementsByClassName("close")[0];
+siteBtn.onclick = function() {
+  siteModal.style.display = "block";
+}
+siteSpan.onclick = function() {
+  siteModal.style.display = "none";
+}
+window.onclick = function(event) {
+  if (event.target == siteModal) {
+    siteModal.style.display = "none";
+  }
+}
+</script>
 
 <script>
 function myFunction() {

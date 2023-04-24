@@ -4,6 +4,54 @@
     ViewBag.Title = "title";
     Layout = "_ListLayout";
 }
+
+<div id="userModal" class="modal">
+    <span class="close">&times;</span>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="exampleModalLabel">Add Service</h5>
+            </div>
+            <form method="post" action="@Url.Action("Create", "User")">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input class="form-control" type="text" name="email" placeholder="email"/>
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="FirstName" class="form-label">First Name</label>
+                            <input type="text" name="FirstName" class="form-control" placeholder="First name" aria-label="First name">
+                        </div>
+                        <div class="col">
+                            <label for="LastName" class="form-label">Last Name</label>
+                            <input type="text" name="LastName" class="form-control" placeholder="Last name" aria-label="Last name">
+                        </div>
+                    </div>
+                    <label for="PhoneNumber" class="form-label">PhoneNumber</label>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">+33</span>
+                        <input type="text" class="form-control" placeholder="Phone Number" name="PhoneNumber" aria-label="Phone Number" aria-describedby="Phone Number">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input class="form-control" type="password" name="Password" placeholder="password"/>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('serviceModal').style.display='none';" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Add Service</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div>
     <h1>Users</h1>
     <div class="input-group" style="margin-bottom: 20px">
@@ -14,6 +62,11 @@
                 </label>
             </div>
             <input id="search-focus" onkeyup="myFunction()" type="search" id="form1" class="form-control" placeholder="Search"/>
+            <div class="input-group-prepend">
+                <btn id="userModalBtn" class=" btn input-group-text btn-success">
+                    Add
+                </btn>
+            </div>
         </div>
     </div>
     <ol id="userList" class="list-group text-start" style="height:calc(100vh - 325px);width: 100%;overflow-y: auto">
@@ -32,6 +85,23 @@
     </ol>
 </div>
 
+<script>
+var serviceModal = document.getElementById("userModal");
+var serviceBtn = document.getElementById("userModalBtn");
+var serviceSpan = document.getElementsByClassName("close")[0];
+serviceBtn.onclick = function() {
+  serviceModal.style.display = "block";
+}
+serviceSpan.onclick = function() {
+  serviceModal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+ window.onclick = function(event) {
+   if (event.target == serviceModal) {
+     siteModal.style.display = "none";
+   }
+ }
+</script>
 <script>
 function myFunction() {
   // Declare variables
