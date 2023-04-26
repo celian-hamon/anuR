@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "title";
     Layout = "_ListLayout";
+    ViewBag.IsAdmin = User.IsInRole("Admin");
 }
 
 <div id="serviceModal" class="modal">
@@ -10,38 +11,40 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-black" id="exampleModalLabel">Add Service</h5>
+                <h5 class="modal-title text-black" id="exampleModalLabel">Edit Site</h5>
             </div>
-            <form method="post" action="@Url.Action("AddService", new { userId = @Model.Id })">
+            <form method="post" action="@Url.Action("Edit", "Service")">
                 <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">Options</label>
-                        </div>
-
-                        <select class="custom-select" id="inputGroupSelect01" name="siteId">
-                            <option selected>Choose a site</option>
-                            @foreach (Service service in ViewBag.Services)
-                            {
-                                <option value="@service.Id">@service.Name</option>
-                            }
-                        </select>
+                    <div class="mb-3">
+                        <input type="hidden" name="Id" value="@Model.Id"/>
+                        <label class="text-black" for="Name" class="form-label">Name</label>
+                        <input class="form-control" type="text" name="Name" placeholder="City" value="@Model.Name"/>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="document.getElementById('serviceModal').style.display='none';" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success">Add Service</button>
+                    <button type="submit" class="btn btn-success">Edit Site</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-@* <button type="submit" class="border-none badge bg-success rounded-pill" id="serviceModalBtn" style="height: fit-content">add +</button> *@
 
 <div style="display: flex;flex-direction: row;justify-content: space-between;margin-bottom:50px;">
-    <h1>
-        @Model.Name
-    </h1>
+    <div class="d-flex flex-row">
+        <h1>
+            @Model.Name
+        </h1>
+        @if (ViewBag.IsAdmin)
+        {
+            <form action="@Url.Action("Delete", "Service", new { Model.Id })" method="post">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+            <div>
+                <button id="serviceModalBtn" class="btn btn-primary">Edit</button>
+            </div>
+        }
+    </div>
     <div style="display: flex;flex-direction:row;align-items: center">
         <span class="badge bg-primary rounded-pill" style="font-size:1rem;height: fit-content">@Model.Users.Count</span>
         <h3 style="margin: 0 0 0 10px"> User@(@Model.Users.Count > 1 ? "s" : "")</h3>

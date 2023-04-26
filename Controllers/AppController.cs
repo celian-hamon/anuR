@@ -91,7 +91,8 @@ public class AppController : Controller
         if (!user.Sites.Contains(site)) return RedirectToAction("NotFound", "Error"); // TODO: 404 page
         user.Sites.Remove(site);
         _context.SaveChanges();
-        return RedirectToAction("User",new {id = userId});
+        return Redirect(Request.Headers["Referer"].ToString());
+
     }
 
     [HttpPost]
@@ -108,7 +109,8 @@ public class AppController : Controller
         user.Sites.Add(site);
         _context.SaveChanges();
 
-        return RedirectToAction("User",new {id = userId});
+        return Redirect(Request.Headers["Referer"].ToString());
+
     }
 
     [HttpPost]
@@ -126,7 +128,7 @@ public class AppController : Controller
         user.Services.Remove(service);
         _context.SaveChanges();
         
-        return RedirectToAction("User",new {id = userId});
+        return Redirect(Request.Headers["Referer"].ToString());
     }
 
     [HttpPost]
@@ -142,6 +144,7 @@ public class AppController : Controller
         user.Services.Add(service);
         _context.SaveChanges();
 
-        return RedirectToAction("User", new {id = userId});
+        return Redirect(Request.Headers["Referer"].ToString());
+
     }
 }

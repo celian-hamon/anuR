@@ -10,7 +10,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-black" id="exampleModalLabel">Add Service</h5>
+                <h5 class="modal-title text-black" id="exampleModalLabel">Create User</h5>
             </div>
             <form method="post" action="@Url.Action("Create", "User")">
                 <div class="modal-body">
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('serviceModal').style.display='none';" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('userModal').style.display='none';" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success">Add Service</button>
                 </div>
             </form>
@@ -98,7 +98,7 @@ serviceSpan.onclick = function() {
 // When the user clicks anywhere outside of the modal, close it
  window.onclick = function(event) {
    if (event.target == serviceModal) {
-     siteModal.style.display = "none";
+     event.target.style.display = "none";
    }
  }
 </script>

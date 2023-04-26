@@ -16,7 +16,6 @@
             <h2 class="float-md-start mb-0"><a class="nav-link" asp-action="Index" asp-controller="Home" style="font-size: 3rem;">anuR</a></h2>
             <nav class="nav nav-masthead justify-content-center float-md-end">
                 <a class="nav-link active" asp-area="" asp-controller="App" asp-action="Index">App</a>
-                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                 @if(User.Identity.IsAuthenticated){
                     <a class="nav-link" asp-area="" asp-controller="Self" asp-action="Index">@(User.Identity.Name)</a> 
                 }

@@ -1,6 +1,7 @@
 using anuR.Context;
 using anuR.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace anuR.Controllers;
 
@@ -34,10 +35,12 @@ public class ServiceController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(int Id)
     {
-        Service? service = _context.Services.FirstOrDefault(s => s.Id == Id);
-        if (service == null) return Redirect(Request.Headers["Referer"].ToString());;
+        Service? service = _context.Services
+            .Include(s => s.Users)
+            .FirstOrDefault(s => s.Id == Id);
+        if (service == null || service.Users.Count != 0) return Redirect(Request.Headers["Referer"].ToString());;
         _context.Remove(service);
         await _context.SaveChangesAsync();
-        return Redirect(Request.Headers["Referer"].ToString());;
+        return RedirectToAction("Services","App");
     }
 }

@@ -11,27 +11,33 @@
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input class="form-control" type="text" name="email" placeholder="email"/>
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <div class="form-text">@Html.ValidationMessageFor(u => u.Email)</div>
         </div>
         <div class="row">
             <div class="col">
                 <label for="FirstName" class="form-label">First Name</label>
                 <input type="text" name="FirstName" class="form-control" placeholder="First name" aria-label="First name">
+                <div class="form-text">@Html.ValidationMessageFor(u => u.FirstName)</div>
+
             </div>
             <div class="col">
                 <label for="LastName" class="form-label">Last Name</label>
                 <input type="text" name="LastName" class="form-control" placeholder="Last name" aria-label="Last name">
+                <div class="form-text">@Html.ValidationMessageFor(u => u.LastName)</div>
             </div>
         </div>
-            <label for="PhoneNumber" class="form-label">PhoneNumber</label>
-        
+        <label for="PhoneNumber" class="form-label">PhoneNumber</label>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">+33</span>
             <input type="text" class="form-control" placeholder="Phone Number" name="PhoneNumber" aria-label="Phone Number" aria-describedby="Phone Number">
         </div>
+                <div class="form-text">@Html.ValidationMessageFor(u => u.PhoneNumber)</div>
+        
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input class="form-control" type="password" name="Password" placeholder="password"/>
+                <div class="form-text">@Html.ValidationMessageFor(u => u.Password)</div>
+            
         </div>
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -40,4 +46,4 @@
     </div>
     <button type="submit" class=" btn btn-primary">Submit</button>
 </form>
-<p style="margin-top: 55px;">Doesn't have an account? <a  asp-action="Register">Register</a>.</p>
+<p style="margin-top: 55px;">Already have an account? <a asp-action="Login">Login</a>.</p>

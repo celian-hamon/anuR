@@ -9,10 +9,13 @@
 <h1>LogIn</h1>
 <form class="" style=" margin: 0 25%" method="post" asp-action="Login">
     <div style="text-align:left;">
+        @if (@Html.ValidationSummary() != null)
+        {
+            <div class="form-text">Invalid Credentials</div>
+        }
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input class="form-control" type="text" name="email" placeholder="email"/>
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
@@ -25,4 +28,4 @@
     </div>
     <button type="submit" class=" btn btn-primary">Submit</button>
 </form>
-<p style="margin-top: 55px;">Doesn't have an account? <a  asp-action="Register">Register</a>.</p>
+<p style="margin-top: 55px;">Doesn't have an account? <a asp-action="Register">Register</a>.</p>

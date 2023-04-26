@@ -3,7 +3,7 @@ services:
   backend:
     image: mcr.microsoft.com/dotnet/sdk:latest
     environment:
-      - ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_URLS=http://+:3000
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
       - postgres
@@ -14,7 +14,7 @@ services:
     working_dir: /app
     command: /bin/sh -c "dotnet watch run --non-interactive"
     ports:
-      - "5000:5000"
+      - "3000:3000"
   
   frontend:
     image: nginx:alpine

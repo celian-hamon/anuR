@@ -14,11 +14,14 @@
             @Model.FirstName @Model.LastName
             <span class="badge bg-primary rounded-pill" style="font-size:1rem;">@(@Model.IsAdmin ? "Admin" : "user")</span>
         </h1>
-        @if (User.IsInRole("Admin"))
+        @if (ViewBag.IsAdmin)
         {
-            <form action="@Url.Action("Delete","User",new { Model.Id })" method="post">
+            <form action="@Url.Action("Delete", "User", new { Model.Id })" method="post">
                 <button type="submit" class="btn btn-danger">Delete</button>
             </form>
+            <div>
+                <button class="btn btn-primary" id="editModalBtn">Edit</button>
+            </div>
         }
     </div>
     <div style="display: flex;flex-direction:row">
@@ -100,6 +103,49 @@
         </div>
     </div>
 </div>
+<div id="editModal" class="modal">
+    <span class="close">&times;</span>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="exampleModalLabel">Create User</h5>
+            </div>
+            <form method="post" action="@Url.Action("Edit", "User")">
+                <div class="modal-body">
+                    <input type="hidden" name="Id" value="@Model.Id"/>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input class="form-control" type="text" name="email" placeholder="email" value="@Model.Email"/>
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="FirstName" class="form-label">First Name</label>
+                            <input type="text" name="FirstName" class="form-control" placeholder="First name" aria-label="First name" value="@Model.FirstName">
+                        </div>
+                        <div class="col">
+                            <label for="LastName" class="form-label">Last Name</label>
+                            <input type="text" name="LastName" class="form-control" placeholder="Last name" aria-label="Last name" value="@Model.LastName">
+                        </div>
+                    </div>
+                    <label for="PhoneNumber" class="form-label">PhoneNumber</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">+33</span>
+                        <input type="text" class="form-control" placeholder="Phone Number" name="PhoneNumber" aria-label="Phone Number" value="@Model.PhoneNumber" aria-describedby="Phone Number">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" name="IsAdmin" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Is Admin ?</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('userModal').style.display='none';" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Add Service</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <div class="col">
@@ -159,14 +205,17 @@
 // Get the modal
 var siteModal = document.getElementById("siteModal");
 var serviceModal = document.getElementById("serviceModal");
+var editModal = document.getElementById("editModal");
 
 // Get the button that opens the modal
 var siteBtn = document.getElementById("siteModalBtn");
 var serviceBtn = document.getElementById("serviceModalBtn");
+var editBtn = document.getElementById("editModalBtn");
 
 // Get the <span> element that closes the modal
 var siteSpan = document.getElementsByClassName("close")[0];
 var serviceSpan = document.getElementsByClassName("close")[1];
+var editSpan = document.getElementsByClassName("close")[2];
 
 // When the user clicks on the button, open the modal
 siteBtn.onclick = function() {
@@ -174,6 +223,9 @@ siteBtn.onclick = function() {
 }
 serviceBtn.onclick = function() {
   serviceModal.style.display = "block";
+}
+editBtn.onclick = function() {
+  editModal.style.display = "block";
 }
 
 // When the user clicks on <span> (x), close the modal
@@ -183,11 +235,14 @@ siteSpan.onclick = function() {
 serviceSpan.onclick = function() {
   serviceModal.style.display = "none";
 }
+editSpan.onclick = function() {
+  editModal.style.display = "none";
+}
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-  if (event.target == siteModal || event.target == serviceModal) {
-    siteModal.style.display = "none";
+  if (event.target == siteModal || event.target ==  serviceModal || event.target == editModal) {
+    event.target.style.display = "none";
   }
 }
 </script>

@@ -2,6 +2,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json.Serialization;
 using anuR.Context;
+using anuR.DataSeeder;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +11,12 @@ using anuR.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.UseUrls("http://0.0.0.0:5000");
+builder.WebHost.UseUrls("http://0.0.0.0:3000");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IHashService, HashService>();
+builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddEntityFrameworkNpgsql()
     .AddDbContext<MainContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection")));    
 
@@ -31,6 +33,23 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 var app = builder.Build();
+
+if (args.Length == 1 && args[0].ToLower() == "seeddata")
+    SeedData(app);
+
+void SeedData(WebApplication app)
+{
+    var scopedFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+
+    using (var scope = scopedFactory.CreateScope())
+    {
+        var seeder = scope.ServiceProvider.GetService<DataSeeder>();
+        seeder.SeedData();
+        
+        Console.WriteLine("Data seeded");
+        System.Environment.Exit(0);
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
