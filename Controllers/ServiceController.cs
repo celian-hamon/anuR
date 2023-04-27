@@ -1,5 +1,6 @@
 using anuR.Context;
 using anuR.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,7 @@ namespace anuR.Controllers;
 
 public class ServiceController : Controller
 {
+    //Controller du CRUD Service
     private MainContext _context;
     
     public ServiceController(MainContext context)
@@ -15,6 +17,7 @@ public class ServiceController : Controller
     }
     
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create(Service service)
     {
         if (!ModelState.IsValid) return Redirect(Request.Headers["Referer"].ToString());;
@@ -24,6 +27,7 @@ public class ServiceController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(Service service)
     {
         if (!ModelState.IsValid) return Redirect(Request.Headers["Referer"].ToString());;
@@ -33,6 +37,7 @@ public class ServiceController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int Id)
     {
         Service? service = _context.Services

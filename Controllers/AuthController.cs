@@ -12,6 +12,7 @@ namespace anuR.Controllers;
 
 public class AuthController : Controller
 {
+    //controller d'authentification avec le register et le login
     private readonly MainContext _context;
     private readonly IHashService _hashService;
 
@@ -79,7 +80,8 @@ public class AuthController : Controller
             IsAdmin = false,
             FirstName = register.FirstName,
             LastName = register.LastName,
-            PhoneNumber = register.PhoneNumber
+            PhoneNumber = register.PhoneNumber,
+            LandLine = register.LandLine
         };
         _context.Users.Add(user);
         await _context.SaveChangesAsync();

@@ -26,18 +26,30 @@
                 <div class="form-text">@Html.ValidationMessageFor(u => u.LastName)</div>
             </div>
         </div>
-        <label for="PhoneNumber" class="form-label">PhoneNumber</label>
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">+33</span>
-            <input type="text" class="form-control" placeholder="Phone Number" name="PhoneNumber" aria-label="Phone Number" aria-describedby="Phone Number">
-        </div>
+        <div class="row">
+            <div class="col">
+                <label for="Phone Number" class="form-label">Phone Number</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">+33</span>
+                    <input type="text" class="form-control" placeholder="Phone Number" name="PhoneNumber" aria-label="Phone Number" aria-describedby="Phone Number">
+                </div>
                 <div class="form-text">@Html.ValidationMessageFor(u => u.PhoneNumber)</div>
-        
+            </div>
+            <div class="col">
+                <label for="Phone Number" class="form-label">Land Line</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">+33</span>
+                    <input type="text" class="form-control" placeholder="Land Line" name="LandLine" aria-label="Land Line" aria-describedby="Land Line">
+                </div>
+                <div class="form-text">@Html.ValidationMessageFor(u => u.LandLine)</div>
+            </div>
+        </div>
+
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input class="form-control" type="password" name="Password" placeholder="password"/>
-                <div class="form-text">@Html.ValidationMessageFor(u => u.Password)</div>
-            
+            <div class="form-text">@Html.ValidationMessageFor(u => u.Password)</div>
+
         </div>
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">

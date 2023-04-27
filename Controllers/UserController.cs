@@ -17,10 +17,11 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromForm] Register user) //TODO Model validation
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Create([FromForm] User user) //TODO Model validation
     {
         if (!ModelState.IsValid) return Redirect(Request.Headers["Referer"].ToString());
-        ;
+        
         _context.Add(user);
         await _context.SaveChangesAsync();
         return RedirectToAction("Users", "App");

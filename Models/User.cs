@@ -12,6 +12,7 @@ public class User : BaseEntity
     [Required] public string? LastName { get; set; }
 
     [Required] [Phone] public string? PhoneNumber { get; set; }
+    [Required] [Phone] public string? LandLine { get; set; }
     public string? Password { get; set; }
     [Required] public String? Email { get; set; }
     public bool IsAdmin { get; set; }

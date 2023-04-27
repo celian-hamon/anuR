@@ -10,6 +10,7 @@ namespace anuR.Controllers;
 
 public class HomeController : Controller
 {
+    //controller de la page de garde
     public IActionResult Index()
     {
         return View();

@@ -28,6 +28,7 @@ public class DataSeeder
                 LastName = "AnuR",
                 Email = "user@anur.com",
                 PhoneNumber = Faker.Phone.Number(),
+                LandLine = Faker.Phone.Number(),
                 Password = _hashService.GetHash("useruser"),
                 IsAdmin = false,
             }
@@ -40,6 +41,7 @@ public class DataSeeder
                 LastName = "AnuR",
                 Email = "admin@anur.com",
                 PhoneNumber = Faker.Phone.Number(),
+                LandLine = Faker.Phone.Number(),
                 Password = _hashService.GetHash("adminadmin"),
                 IsAdmin = true,
             }
@@ -55,6 +57,7 @@ public class DataSeeder
                     LastName = Faker.Name.Last(),
                     Email = Faker.Internet.Email(),
                     PhoneNumber = Faker.Phone.Number(),
+                    LandLine = Faker.Phone.Number(),
                     Password = _hashService.GetHash("password"),
                     IsAdmin = false,
                 }

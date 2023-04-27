@@ -1,12 +1,8 @@
-using System.Net;
-using System.Text;
 using System.Text.Json.Serialization;
 using anuR.Context;
 using anuR.DataSeeder;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using anuR.Services;
 
 var builder = WebApplication.CreateBuilder(args);

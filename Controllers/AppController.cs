@@ -8,6 +8,7 @@ namespace anuR.Controllers;
 
 public class AppController : Controller
 {
+    //controller des vues de l'app avec tout les lists et le dashboard
     private readonly MainContext _context;
 
     public AppController(MainContext context)

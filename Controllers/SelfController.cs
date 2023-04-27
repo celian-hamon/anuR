@@ -10,6 +10,7 @@ namespace anuR.Controllers;
 
 public class SelfController : Controller
 {
+    //controller de renvois de son propre user
     private readonly MainContext _context;
 
     public SelfController(MainContext context)

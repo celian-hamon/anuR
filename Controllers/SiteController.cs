@@ -1,5 +1,6 @@
 using anuR.Context;
 using anuR.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,7 @@ public class SiteController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create(Site site)
     {
         if (!ModelState.IsValid) return Redirect(Request.Headers["Referer"].ToString());
@@ -25,6 +27,7 @@ public class SiteController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(Site site)
     {
         if (!ModelState.IsValid) return Redirect(Request.Headers["Referer"].ToString());
@@ -34,7 +37,8 @@ public class SiteController : Controller
         return Redirect(Request.Headers["Referer"].ToString());
     }
 
-    [HttpPost]
+    [HttpPost] 
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int Id)
     {
         Site? site = _context.Sites
